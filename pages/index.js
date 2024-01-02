@@ -1,14 +1,12 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import Sidebar from "@/components/Sidebar";
 
 export default function Home() {
   return (
-    <>
-    <Sidebar />
-    {/* <PostsFeed />
-    <Trending /> */}
-    </>
-  )
+    <div className="custom__bg-color min-h-screen text-[#E7E9EA] max-w-[1400px] mx-auto">
+      <Sidebar />
+      {/* <PostsFeed /> */}
+      {/* <Trending />  */}
+    </div>
+  );
 }
+

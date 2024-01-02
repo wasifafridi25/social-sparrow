@@ -2,4 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+    .custom__bg-color{
+        background-color: rgb(21, 32, 43);
+    }
+
+    .hoverAnimation{
+        @apply hover:bg-white hover:bg-opacity-10
+    }
+}
+
 
