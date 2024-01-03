@@ -14,6 +14,22 @@
 
   .iconAnimation {
     @apply cursor-pointer hover:bg-[#1d9bf0] hover:bg-opacity-10 w-9 h-9 flex justify-center 
-    items-center rounded-full;
+    items-center rounded-full transition-all duration-300;
   }
+
+  .tweetHeadIconHover{
+    @apply w-[30px] h-[30px] cursor-pointer 
+     transition-all duration-300 flex justify-center items-center rounded-full
+  }
+
+  .hoverBlue{
+    @apply  hover:text-blue-500 hover:bg-blue-400 hover:bg-opacity-10
+  }
+  .hoverGreen{
+    @apply  hover:text-green-500 hover:bg-green-400 hover:bg-opacity-10
+  }
+  .hoverRed{
+    @apply  hover:text-pink-600 hover:bg-pink-400 hover:bg-opacity-10
+  }
+  
 }
