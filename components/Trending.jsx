@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function Trending() {
   return (
-    <div className="hidden xl:flex">
+    <div className="hidden md:flex">
       <div className="py-1.5 px-7 ">
         <div className="flex items-center space-x-3 mb-4 bg-white bg-opacity-10 p-3 w-[270px] h-[34px] rounded-3xl border border-transparent  focus-within:border-blue-700 text-gray-500 focus-within:text-blue-700">
           <SearchIcon className="w-4" />

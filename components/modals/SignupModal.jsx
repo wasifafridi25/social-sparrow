@@ -1,10 +1,58 @@
+import { auth } from "@/firebase";
 import { closeSignupModal, openSignupModal } from "@/redux/modalSlice";
+import { setUser } from "@/redux/userSlice";
 import Modal from "@mui/material/Modal";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SignupModal() {
   const isOpen = useSelector((state) => state.modals.signupModalOpen);
   const dispatch = useDispatch();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  const router = useRouter()
+
+  async function handleSignup() {
+    const userCredentials = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    await updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: `./assets/profilePictures/pfp${Math.ceil(Math.random() * 6)}.png`
+    })
+
+    router.reload()
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) return;
+
+      dispatch(
+        setUser({
+          username: currentUser?.email?.split("@")[0],
+          name: currentUser?.displayName,
+          email: currentUser?.email,
+          uid: currentUser?.uid,
+          photoUrl: currentUser?.photoURL,
+        })
+      );
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <div>
@@ -28,24 +76,34 @@ export default function SignupModal() {
             <button className="bg-white text-black rounded-md w-full p-2 font-bold mb-2">
               Sign In as Guest
             </button>
-            <span className="flex justify-center mb-2 font-bold text-lg">or</span>
-            <h1 className="font-bold text-xl sm:text-2xl md:text-3xl mb-8">Create your account</h1>
+            <span className="flex justify-center mb-2 font-bold text-lg">
+              or
+            </span>
+            <h1 className="font-bold text-xl sm:text-2xl md:text-3xl mb-8">
+              Create your account
+            </h1>
             <input
+            onChange={e => setName(e.target.value)}
               type="text"
               placeholder="Full Name"
               className="h-10 p-6 bg-transparent border border-gray-700 w-full rounded-md mb-8 focus:outline-none"
             />
             <input
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Email"
               className="h-10 p-6 bg-transparent border border-gray-700 w-full rounded-md mb-8 focus:outline-none"
             />
             <input
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"
               className="h-10 p-6 bg-transparent border border-gray-700 w-full rounded-md mb-8 focus:outline-none"
             />
-            <button className="bg-white text-black rounded-md w-full p-2 font-bold mb-8 md:mb-0">
+            <button
+              onClick={handleSignup}
+              className="bg-white text-black rounded-md w-full p-2 font-bold mb-8 md:mb-0"
+            >
               Create account
             </button>
           </div>
