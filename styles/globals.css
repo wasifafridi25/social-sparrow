@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color: rgb(21, 32, 43);
+}
+
 @layer components {
   .custom__bg-color {
     background-color: rgb(21, 32, 43);
