@@ -1,7 +1,33 @@
-import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, LocationMarkerIcon, PhotographIcon } from "@heroicons/react/outline";
+import { db } from "@/firebase";
+import {
+  CalendarIcon,
+  ChartBarIcon,
+  EmojiHappyIcon,
+  LocationMarkerIcon,
+  PhotographIcon,
+} from "@heroicons/react/outline";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import Image from "next/image";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function TweetInput() {
+  const [text, setText] = useState("");
+  const user = useSelector((state) => state.user);
+
+  const sendTweet = async () => {
+    const docRef = await addDoc(collection(db, "posts"), {
+      username: user.username,
+      name: user.name,
+      uid: user.uid,
+      photoUrl: user.photoUrl,
+      timestamp: serverTimestamp(),
+      likes: [],
+      tweet: text,
+    });
+    setText("")
+  };
+
   return (
     <div className="p-3 flex space-x-3 w-full border-gray-700 border-b">
       <div>
@@ -15,6 +41,8 @@ export default function TweetInput() {
       <div className="w-full">
         <div>
           <textarea
+          value={text}
+            onChange={(e) => setText(e.target.value)}
             className="bg-transparent resize-none outline-none w-full min-h-[50px] text-lg"
             placeholder="What's on your mind?"
           />
@@ -40,7 +68,13 @@ export default function TweetInput() {
             </div>
           </div>
           <div>
-            <button className="bg-[#1d9bf0] px-4 py-1.5 rounded-full">Post</button>
+            <button
+              onClick={sendTweet}
+              disabled={!text}
+              className="bg-[#1d9bf0] px-4 py-1.5 rounded-full disabled:opacity-50"
+            >
+              Post
+            </button>
           </div>
         </div>
       </div>

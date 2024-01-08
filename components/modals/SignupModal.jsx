@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 import { useRouter } from "next/router";
@@ -34,6 +35,13 @@ export default function SignupModal() {
     })
 
     router.reload()
+
+    dispatch(closeSignupModal())
+  }
+
+  const handleGuestLogin = async() => {
+    await signInWithEmailAndPassword(auth, 'guest25251314@gmail.com', '123456');
+    dispatch(closeSignupModal())
   }
 
   useEffect(() => {
@@ -73,7 +81,7 @@ export default function SignupModal() {
         border border-blue-900 rounded-lg flex justify-center"
         >
           <div className="w-[85%] mt-8 md:mt-10">
-            <button className="bg-white text-black rounded-md w-full p-2 font-bold mb-2">
+            <button onClick={handleGuestLogin} className="bg-white text-black rounded-md w-full p-2 font-bold mb-2">
               Sign In as Guest
             </button>
             <span className="flex justify-center mb-2 font-bold text-lg">
