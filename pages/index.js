@@ -2,6 +2,7 @@ import BottomBanner from "@/components/BottomBanner";
 import PostsFeed from "@/components/PostsFeed";
 import Sidebar from "@/components/Sidebar";
 import Trending from "@/components/Trending";
+import CommentModal from "@/components/modals/CommentModal";
 import { useSelector } from "react-redux";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
         <Trending /> 
         
       </div>
+      <CommentModal />
 
       {!username && <BottomBanner />}
     </div>

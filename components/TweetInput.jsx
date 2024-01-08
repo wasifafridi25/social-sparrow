@@ -58,19 +58,19 @@ export default function TweetInput() {
           <div className="flex">
             {/* //Icons */}
             <div className="iconAnimation">
-              <PhotographIcon className="h-[22px] text-[#1d9bf0]" />
+              <PhotographIcon className="h-[22px] text-[#1d9bf0] hover:text-blue-700" />
             </div>
             <div className="iconAnimation">
-              <ChartBarIcon className="h-[22px] text-[#1d9bf0]" />
+              <ChartBarIcon className="h-[22px] text-[#1d9bf0] hover:text-blue-700" />
             </div>
             <div className="iconAnimation">
-              <EmojiHappyIcon className="h-[22px] text-[#1d9bf0]" />
+              <EmojiHappyIcon className="h-[22px] text-[#1d9bf0] hover:text-blue-700" />
             </div>
             <div className="iconAnimation">
-              <CalendarIcon className="h-[22px] text-[#1d9bf0]" />
+              <CalendarIcon className="h-[22px] text-[#1d9bf0] hover:text-blue-700" />
             </div>
             <div className="iconAnimation">
-              <LocationMarkerIcon className="h-[22px] text-[#1d9bf0]" />
+              <LocationMarkerIcon className="h-[22px] text-[#1d9bf0] hover:text-blue-700" />
             </div>
           </div>
           <div>
@@ -80,7 +80,7 @@ export default function TweetInput() {
               disabled={!text}
               className="bg-[#1d9bf0] px-4 py-1.5 rounded-full disabled:opacity-50"
             >
-              Post
+              Tweet
             </button>
           </div>
         </div>

@@ -17,8 +17,12 @@ body{
   }
 
   .iconAnimation {
-    @apply cursor-pointer hover:bg-[#1d9bf0] hover:bg-opacity-10 w-9 h-9 flex justify-center 
+    @apply cursor-pointer hover:bg-[#1d9bf0] hover:bg-opacity-10  w-9 h-9 flex justify-center 
     items-center rounded-full transition-all duration-300;
+  }
+
+  .darkerbgIconAnimation{
+
   }
 
   .tweetHeadIconHover{

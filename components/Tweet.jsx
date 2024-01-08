@@ -1,3 +1,4 @@
+import { openCommentModal, setCommentTweetDetails } from "@/redux/modalSlice";
 import {
   ChartBarIcon,
   ChatIcon,
@@ -5,15 +6,30 @@ import {
   UploadIcon,
 } from "@heroicons/react/outline";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import Moment from "react-moment";
+import { useDispatch } from "react-redux";
 
-export default function Tweet({ data }) {
+export default function Tweet({ data, id }) {
+  const dispatch = useDispatch()
+  const router = useRouter()
+
   return (
-    <div className="border-gray-700 border-b">
+    <div onClick={() => router.push("/" + id)} className="border-gray-700 border-b cursor-pointer">
       <TweetHeader data={data} />
       <div className="flex space-x-14 ml-[52px] mb-2">
-        <div className="tweetHeadIconHover hoverBlue">
+        <div onClick={(e) => {
+          e.stopPropagation()
+          dispatch(setCommentTweetDetails({
+            username: data?.username,
+            name: data?.name,
+            id: id,
+            photoUrl: data?.photoUrl,
+            tweet: data?.tweet,
+          }))
+          dispatch(openCommentModal())
+          }} className="tweetHeadIconHover hoverBlue">
           <ChatIcon className="w-5" />
         </div>
         <div className="tweetHeadIconHover hoverRed">
@@ -48,7 +64,7 @@ export function TweetHeader({ data }) {
           <span>@{data?.username}</span>
           <div className="h-1 w-1 bg-gray-500 rounded-full"></div>
           <Moment fromNow>
-            {/* {data?.timestamp?.toDate()} */}
+            {data?.timestamp?.toDate()}
           </Moment>
         </div>
         <div>{data?.tweet}</div>
