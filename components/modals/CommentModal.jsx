@@ -28,7 +28,8 @@ export default function CommentModal() {
         comment: arrayUnion(commentDetails) //In firebase if you wanna add to elements to an array use arrayUnion
     })
     setComment("")
-    
+    dispatch(closeCommentModal())
+    router.push("/" + tweetComment.id)
 
   }
   return (
