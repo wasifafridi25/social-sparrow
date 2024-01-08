@@ -31,7 +31,7 @@ export default function SignupModal() {
 
     await updateProfile(auth.currentUser, {
       displayName: name,
-      photoURL: `./assets/profilePictures/pfp${Math.ceil(Math.random() * 6)}.png`
+      photoURL: `/assets/profilePictures/pfp${Math.ceil(Math.random() * 6)}.png`
     })
 
     router.reload()
@@ -40,7 +40,7 @@ export default function SignupModal() {
   }
 
   const handleGuestLogin = async() => {
-    await signInWithEmailAndPassword(auth, 'guest25251314@gmail.com', '123456');
+    await signInWithEmailAndPassword(auth, 'guest25251413@gmail.com', '123456');
     dispatch(closeSignupModal())
   }
 

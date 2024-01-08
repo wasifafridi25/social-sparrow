@@ -21,7 +21,7 @@ export default function SignupModal() {
   }
 
   const handleGuestLogin = async() => {
-    await signInWithEmailAndPassword(auth, 'guest25251314@gmail.com', '123456')
+    await signInWithEmailAndPassword(auth, 'guest25251413@gmail.com', '123456')
     dispatch(closeLoginModal())
   }
 

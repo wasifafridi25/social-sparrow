@@ -28,11 +28,17 @@ export default function TweetInput() {
     setText("")
   };
 
+  // const disable = () => {
+  //   if (!user || !user.username || !user.name || !user.uid || !user.photoUrl) return true
+  //   else if (!text) return true
+  //   else return false
+  // }
+
   return (
     <div className="p-3 flex space-x-3 w-full border-gray-700 border-b">
       <div>
-        <Image
-          src={"/assets/person-1.jpg"}
+        <img
+          src={user?.photoUrl || '/assets/person-1.jpg'}
           width={30}
           height={30}
           className="rounded-full object-cover"
@@ -70,6 +76,7 @@ export default function TweetInput() {
           <div>
             <button
               onClick={sendTweet}
+              // disabled={!user || (!text && user)}
               disabled={!text}
               className="bg-[#1d9bf0] px-4 py-1.5 rounded-full disabled:opacity-50"
             >
