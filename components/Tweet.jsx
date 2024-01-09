@@ -1,3 +1,4 @@
+import { db } from "@/firebase";
 import { openCommentModal, setCommentTweetDetails } from "@/redux/modalSlice";
 import {
   ChartBarIcon,
@@ -5,15 +6,23 @@ import {
   HeartIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
-import Image from "next/image";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 
 import Moment from "react-moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Tweet({ data, id }) {
   const dispatch = useDispatch()
   const router = useRouter()
+  const user = useSelector(state => state.user)
+
+  const likeTweet = async(e) => {
+    e.stopPropagation()
+    await updateDoc(doc(db, 'posts', id), {
+      likes: arrayUnion(user.uid)
+    })
+  }
 
   return (
     <div onClick={() => router.push("/" + id)} className="border-gray-700 border-b cursor-pointer">
@@ -32,7 +41,7 @@ export default function Tweet({ data, id }) {
           }} className="tweetHeadIconHover hoverBlue">
           <ChatIcon className="w-5" />
         </div>
-        <div className="tweetHeadIconHover hoverRed">
+        <div onClick={likeTweet} className="tweetHeadIconHover hoverRed">
           <HeartIcon className="w-5" />
         </div>
         <div className="tweetHeadIconHover hoverGreen">
