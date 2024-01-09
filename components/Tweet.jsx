@@ -6,6 +6,7 @@ import {
   HeartIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
+import { HeartIcon as FilledHeartIcon } from "@heroicons/react/solid";
 import {
   arrayRemove,
   arrayUnion,
@@ -41,13 +42,18 @@ export default function Tweet({ data, id }) {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "posts", id), (doc) => {
-      setLikes(doc.data().likes);
-      //onSnapshot is like an active listener so everytime a user likes or unlikes it will listen
+    if (!id) return;
+
+    const docRef = doc(db, "posts", id);
+    if (!docRef) return; // Additional check to ensure docRef is valid
+
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      setLikes(doc.data()?.likes || []); // Ensure default to an empty array if likes are not available
+    //onSnapshot is like an active listener so everytime a user likes or unlikes it will listen
     });
 
     return unsubscribe;
-  });
+  }, []);
 
   return (
     <div
@@ -73,9 +79,23 @@ export default function Tweet({ data, id }) {
           className="tweetHeadIconHover hoverBlue"
         >
           <ChatIcon className="w-5" />
+          <span className="text-sm">{data.comment?.length}</span>
         </div>
         <div onClick={likeTweet} className="tweetHeadIconHover hoverRed">
-          <HeartIcon className="w-5" />
+          {likes.includes(user.uid) ? (
+            <>
+              <FilledHeartIcon className="w-5 text-pink-700" />
+            </>
+          ) : (
+            <>
+              <HeartIcon className="w-5" />
+            </>
+          )}
+          {likes.length > 0 && likes.includes(user.uid) ? (
+            <span className="text-pink-700 text-sm">{likes.length}</span>
+          ) : likes.length > 0 ? (
+            <span className="text-sm">{likes.length}</span>
+          ) : null}
         </div>
         <div className="tweetHeadIconHover hoverGreen">
           <ChartBarIcon className="w-5" />
