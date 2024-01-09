@@ -29,7 +29,7 @@ export default function Trending() {
             <div>
               <div className="flex items-center space-x-2 text-[#8b98A5] text-sm">
                 <span>Politics</span>
-                <div className="w-1 h-1 bg-gray-600"></div>
+                <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
                 <span>Trending</span>
               </div>
 
@@ -60,7 +60,7 @@ export default function Trending() {
             <div>
               <div className="flex items-center space-x-2 text-[#8b98A5] text-sm">
                 <span>Entertainment</span>
-                <div className="w-1 h-1 bg-gray-600"></div>
+                <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
                 <span>Trending</span>
               </div>
 
@@ -76,7 +76,7 @@ export default function Trending() {
             <div>
               <div className="flex items-center space-x-2 text-[#8b98A5] text-sm">
                 <span>Politics</span>
-                <div className="w-1 h-1 bg-gray-600"></div>
+                <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
                 <span>Trending</span>
               </div>
 

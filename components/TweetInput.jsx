@@ -7,7 +7,6 @@ import {
   PhotographIcon,
 } from "@heroicons/react/outline";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import Image from "next/image";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
