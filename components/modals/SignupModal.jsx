@@ -44,6 +44,14 @@ export default function SignupModal() {
     dispatch(closeSignupModal())
   }
 
+  const handleKeyPress = (event) => {
+    // Check if the pressed key is Enter (keyCode 13)
+    if (event.key === 'Enter') {
+      // Trigger the same action as the button click
+      handleSignup()
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) return;
@@ -103,6 +111,7 @@ export default function SignupModal() {
               className="h-10 p-6 bg-transparent border border-gray-700 w-full rounded-md mb-8 focus:outline-none"
             />
             <input
+            onKeyDown={handleKeyPress}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"

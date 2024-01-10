@@ -25,6 +25,14 @@ export default function SignupModal() {
     dispatch(closeLoginModal())
   }
 
+  const handleKeyPress = (event) => {
+    // Check if the pressed key is Enter (keyCode 13)
+    if (event.key === 'Enter') {
+      // Trigger the same action as the button click
+      handleLogin()
+    }
+  };
+
   return (
     <div>
       <button
@@ -58,6 +66,7 @@ export default function SignupModal() {
             />
             <input
             onChange={e => setPassword(e.target.value)}
+            onKeyDown={handleKeyPress}
               type="password"
               placeholder="Password"
               className="h-10 p-6 bg-transparent border border-gray-700 w-full rounded-md mb-8 focus:outline-none"
