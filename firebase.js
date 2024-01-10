@@ -8,12 +8,12 @@ import { getStorage } from 'firebase/storage'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBX00GjPHiDc4q2aKgGhSDCXdF6By45msI",
-  authDomain: "social-sparrow-317fe.firebaseapp.com",
-  projectId: "social-sparrow-317fe",
-  storageBucket: "social-sparrow-317fe.appspot.com",
-  messagingSenderId: "246218152875",
-  appId: "1:246218152875:web:00cc8a1d68adbf670510ee"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

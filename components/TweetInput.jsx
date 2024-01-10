@@ -5,6 +5,7 @@ import {
   EmojiHappyIcon,
   LocationMarkerIcon,
   PhotographIcon,
+  RefreshIcon,
   XIcon,
 } from "@heroicons/react/outline";
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
@@ -14,9 +15,11 @@ import { useSelector } from "react-redux";
 
 export default function TweetInput() {
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user);
 
   const sendTweet = async () => {
+    setLoading(true)
     const docRef = await addDoc(collection(db, "posts"), {
       username: user.username,
       name: user.name,
@@ -41,6 +44,7 @@ export default function TweetInput() {
 
     setText("")
     setImage(null)
+    setLoading(false)
   };
 
   const [image, setImage] = useState(null);
@@ -67,7 +71,14 @@ export default function TweetInput() {
           className="rounded-full object-cover"
         />
       </div>
-      <div className="w-full">
+      {loading && (
+        <div>
+          <h1 className="text-2xl text-gray-500">Uploading post...</h1>
+          <RefreshIcon className="animate-spin h-11 w-11 text-gray-500"/>
+        </div>
+      )}
+
+      {!loading && (<div className="w-full">
         <div>
           <textarea
           value={text}
@@ -117,7 +128,7 @@ export default function TweetInput() {
             </button>
           </div>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }
