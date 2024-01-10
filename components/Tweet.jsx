@@ -1,15 +1,21 @@
 import { db } from "@/firebase";
-import { openCommentModal, setCommentTweetDetails } from "@/redux/modalSlice";
+import {
+  openCommentModal,
+  openLoginModal,
+  setCommentTweetDetails,
+} from "@/redux/modalSlice";
 import {
   ChartBarIcon,
   ChatIcon,
   HeartIcon,
+  TrashIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
 import { HeartIcon as FilledHeartIcon } from "@heroicons/react/solid";
 import {
   arrayRemove,
   arrayUnion,
+  deleteDoc,
   doc,
   onSnapshot,
   updateDoc,
@@ -30,6 +36,11 @@ export default function Tweet({ data, id }) {
   const likeTweet = async (e) => {
     e.stopPropagation();
 
+    if (!user.username) {
+      dispatch(openLoginModal());
+      return;
+    }
+
     if (likes.includes(user.uid)) {
       await updateDoc(doc(db, "posts", id), {
         likes: arrayRemove(user.uid),
@@ -41,6 +52,31 @@ export default function Tweet({ data, id }) {
     }
   };
 
+  const commentTweet = async (e) => {
+    e.stopPropagation();
+
+    if (!user.username) {
+      dispatch(openLoginModal());
+      return;
+    }
+    dispatch(
+      setCommentTweetDetails({
+        username: data?.username,
+        name: data?.name,
+        id: id,
+        photoUrl: data?.photoUrl,
+        tweet: data?.tweet,
+      })
+    );
+    dispatch(openCommentModal());
+  };
+
+  const deleteTweet = async(e) => {
+    e.stopPropagation()
+
+    await deleteDoc(doc(db, 'posts', id))
+  }
+
   useEffect(() => {
     if (!id) return;
 
@@ -49,7 +85,7 @@ export default function Tweet({ data, id }) {
 
     const unsubscribe = onSnapshot(docRef, (doc) => {
       setLikes(doc.data()?.likes || []); // Ensure default to an empty array if likes are not available
-    //onSnapshot is like an active listener so everytime a user likes or unlikes it will listen
+      //onSnapshot is like an active listener so everytime a user likes or unlikes it will listen
     });
 
     return unsubscribe;
@@ -63,19 +99,7 @@ export default function Tweet({ data, id }) {
       <TweetHeader data={data} />
       <div className="flex space-x-14 ml-[52px] mb-2">
         <div
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(
-              setCommentTweetDetails({
-                username: data?.username,
-                name: data?.name,
-                id: id,
-                photoUrl: data?.photoUrl,
-                tweet: data?.tweet,
-              })
-            );
-            dispatch(openCommentModal());
-          }}
+          onClick={commentTweet}
           className="tweetHeadIconHover hoverBlue"
         >
           <ChatIcon className="w-5" />
@@ -97,11 +121,19 @@ export default function Tweet({ data, id }) {
             <span className="text-sm">{likes.length}</span>
           ) : null}
         </div>
-        <div className="tweetHeadIconHover hoverGreen">
+
+        {user.uid === data?.uid && (
+          <div onClick={deleteTweet} className="cursor-pointer hover:text-red-600 hover:bg-red-600 hover:bg-opacity-10 tweetHeadIconHover">
+
+        <TrashIcon className="w-5"></TrashIcon>
+          </div>
+        )}
+
+        <div onClick={e => e.stopPropagation()} className="tweetHeadIconHover hoverGreen cursor-not-allowed">
           <ChartBarIcon className="w-5" />
         </div>
 
-        <div className="tweetHeadIconHover hoverBlue">
+        <div onClick={e => e.stopPropagation()} className="tweetHeadIconHover hoverBlue cursor-not-allowed">
           <UploadIcon className="w-5" />
         </div>
       </div>
@@ -128,6 +160,8 @@ export function TweetHeader({ data }) {
           <Moment fromNow>{data?.timestamp?.toDate()}</Moment>
         </div>
         <div>{data?.tweet}</div>
+        {data?.image && <img src={data?.image} className="max-w-[350px] mt-3 border border-gray-700 
+        rounded-md object-cover max-h-80"/>}
       </div>
     </div>
   );

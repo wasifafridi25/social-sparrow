@@ -24,6 +24,7 @@ export const getServerSideProps = async (context) => {
     tweet: data?.tweet,
     comments: data?.comment || null,
     timestamp: JSON.stringify(data?.timestamp?.toDate()),
+    image: data?.image || null
   };
 
   return {
@@ -63,6 +64,8 @@ export default function CommentsPage({ formattedData }) {
                 {/* Parse it back into an object, Also it came as a string so can't use timestamp.toDate() */}
               </div>
               <div className="text-xl">{formattedData?.tweet}</div>
+              {formattedData?.image && <img src={formattedData?.image} className="mt-3 border border-gray-700 
+        rounded-md object-cover max-h-80"/>}
             </div>
           </div>
         </div>
